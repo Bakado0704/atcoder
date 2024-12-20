@@ -1,3 +1,6 @@
+# リンク
+https://www.notion.so/B-285-1627803b6adb805cb0baff3641cc65bb?pvs=4
+
 # 入力
 4
 3
