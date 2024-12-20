@@ -26,10 +26,8 @@
 //   vector<int> A(N);
 
 //   rep(i, N) cin >> A[i];
-//   rep(i, N) sr.insert(A[i]);
+//   sort(A.rbegin(), A.rend());
+//   A.erase(unique(A.begin(), A.end()), A.end());
 
-//   auto itr = sr.rbegin();
-//   itr++;
-
-//   cout << *itr << endl;
+//   cout << A[1] << endl;
 // }

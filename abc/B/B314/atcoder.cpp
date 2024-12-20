@@ -2,60 +2,37 @@
 // ./atcoder
 
 #include <algorithm>
-#include <cmath>
 #include <iostream>
 #include <vector>
-
-#define rep(i, n) for (int i = 0; i < (n); ++i)
 using namespace std;
-const double PI = acos(-1);
-template <class T>
-void chmax(T& a, T b) {
-  if (a < b) {
-    a = b;
+int main(void) {
+  int n, x, c[101];
+  vector<int> a[101];
+
+  cin >> n;
+  for (int i = 1; i <= n; i++) {
+    cin >> c[i];
+    a[i].resize(c[i]);
+    for (int j = 0; j < c[i]; j++) cin >> a[i][j];
   }
-}
+  cin >> x;
 
-int main() {
-  int N;
-  cin >> N;
-  vector<int> C(N);
-  vector<vector<int>> A(N, vector<int>(N));
-  rep(i, N) {
-    cin >> C[i];
-    rep(j, C[i]) cin >> A[i][j];
-  }
-
-  int X;
-  cin >> X;
-
-  int min_num = 100;
-
-  rep(i, N) {
-    rep(j, C[i]) {
-      if (A[i][j] == X) {
-        if (min_num >= C[i]) {
-          min_num = C[i];
-        }
-      }
-    }
+  vector<int> vec;
+  for (int i = 1; i <= n; i++) {
+    for (int j = 0; j < c[i]; j++)
+      if (a[i][j] == x) vec.push_back(i);
   }
 
-  int count = 0;
+  int cmin = 37;
+  for (auto i : vec) cmin = min(cmin, c[i]);
 
-  rep(i, N) {
-    if (min_num == C[i]) {
-      count++;
-    }
-  }
+  vector<int> ans;
+  for (auto i : vec)
+    if (c[i] == cmin) ans.push_back(i);
 
-  cout << count << endl;
-
-  rep(i, N) {
-    if (min_num == C[i]) {
-      cout << i + 1 << " ";
-    }
-  }
-
+  cout << ans.size() << endl;
+  for (auto b : ans) cout << b << " ";
   cout << endl;
+
+  return 0;
 }

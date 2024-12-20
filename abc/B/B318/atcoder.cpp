@@ -19,31 +19,18 @@ void chmax(T& a, T b) {
 int main() {
   int N;
   cin >> N;
-  vector<int> A(N);
-  vector<int> B(N);
-  vector<int> C(N);
-  vector<int> D(N);
-  rep(i, N) cin >> A[i] >> B[i] >> C[i] >> D[i];
-
-  for (int i = 1; i < N; i++) {
-    int result = 0;
-
-    if (A[i - 1] <= A[i]) {
-      if (B[i - 1] <= B[i])
-        result = B[i - 1] - A[i];
-      else
-        result = B[i] - A[i];
-    } else {
-      if (B[i - 1] <= B[i])
-        result = B[i - 1] - A[i - 1];
-      else
-        result = B[i] - A[i - 1];
-    }
-
-    if (result >= 0) {
-      cout << result << endl;
-    } else {
-      cout << 0 << endl;
+  int m = 100;
+  vector<vector<int>> s(m, vector<int>(m));
+  rep(ni, N) {
+    int a, b, c, d;
+    cin >> a >> b >> c >> d;
+    for (int i = a; i < b; i++) {
+      for (int j = c; i < d; j++) {
+        s[i][j]++;
+      }
     }
   }
+  int ans = 0;
+  rep(i, m) rep(j, m) if (s[i][j] >= 1) ans++;
+  cout << ans << endl;
 }

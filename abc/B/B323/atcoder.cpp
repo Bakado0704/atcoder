@@ -23,7 +23,6 @@ int main() {
   rep(i, N) cin >> S[i];
 
   vector<int> win_count_array(N);
-  vector<int> sorted_array(N);
 
   rep(i, N) {
     int count = 0;
@@ -33,19 +32,15 @@ int main() {
       }
     }
     win_count_array[i] = count;
-    sorted_array[i] = count;
   }
 
-  sort(sorted_array.rbegin(), sorted_array.rend());
+  vector<int> ans(N);
+  rep(i, N) ans[i] = i;
+  sort(ans.begin(), ans.end(), [&](int a, int b) {
+    if (win_count_array[a] == win_count_array[b]) return a < b;
+    return win_count_array[a] > win_count_array[b];
+  });
 
-  rep(i, N) {
-    rep(j, N) {
-      if (sorted_array[j] == win_count_array[i]) {
-        cout << j + 1 << " ";
-        break;
-      }
-    }
-  }
-
+  rep(i, N) cout << ans[i] + 1 << " ";
   cout << endl;
 }
