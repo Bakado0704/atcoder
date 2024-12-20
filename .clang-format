@@ -1,0 +1,3 @@
+BasedOnStyle: Google  # または他のスタイル
+BreakBeforeBraces: Attach  # 波括弧を同じ行に配置
+IndentWidth: 2  # インデント幅
