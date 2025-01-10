@@ -12,31 +12,27 @@ int main() {
   int N;
   cin >> N;
   vector<int> H(N);
+
   for (int i = 0; i < N; i++) {
     cin >> H[i];
   }
-
-  int ans = 0;
-  for (int i = 1; i <= N; i++) {  // 間隔
-    for (int j = 0; j < i; j++) {
-      vector<int> a;
-      for (int z = j; z < N; z += i) {
-        a.push_back(H[z]);
-      }
-
-      int len = 0;
-      int val = -1;
-      for (int x : a) {
-        if (val == x) {
-          len++;
+  int ans = 1;
+  for (int i = 1; i < N; i++) {    // 間隔
+    int count = N / i;             // 何回分あるか
+    for (int j = 0; j < i; j++) {  // 起点
+      int current_num = 0;
+      int current_ans = 1;
+      for (int z = 0; z <= count; z++) {
+        int index = j + i * z;
+        if (current_num != H[index]) {
+          current_num = H[index];
+          current_ans = 1;
         } else {
-          val = x, len = 1;
+          current_ans++;
         }
-
-        ans = max(ans, len);
+        ans = max(ans, current_ans);
       }
     }
   }
-
   cout << ans << endl;
 }
