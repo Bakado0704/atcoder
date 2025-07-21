@@ -1,5 +1,6 @@
 // g++ -std=c++11 -o atcoder atcoder.cpp
 // ./atcoder
+// 加算の増減の配列を作る
 
 #include <algorithm>
 #include <cmath>
@@ -11,25 +12,20 @@ using namespace std;
 int main() {
   int D, N;
   cin >> D >> N;
-  vector<tuple<int, int> > A(N);
 
+  vector<int> L(N);
+  vector<int> R(N);
+
+  for (int i = 0; i < N; i++) cin >> L[i] >> R[i];
+
+  vector<int> increase(D);
   for (int i = 0; i < N; i++) {
-    int a, b;
-    cin >> a >> b;
-    A[i] = {a, b};
+    increase[L[i] - 1]++;
+    increase[R[i]]--;
   }
 
-  vector<int> ans(D);
-
-  for (const auto& q : A) {
-    for (int i = 0; i < D; i++) {
-      if (get<0>(q) <= i + 1 && i + 1 <= get<1>(q)) {
-        ans[i]++;
-      }
-    }
-  }
-
-  for (int i = 0; i < D; i++) {
-    cout << ans[i] << endl;
-  }
+  vector<int> answer(D);
+  answer[0] = increase[0];
+  for (int i = 1; i < D; i++) answer[i] = answer[i - 1] + increase[i];
+  for (int i = 0; i < D; i++) cout << answer[i] << endl;
 }
