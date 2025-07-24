@@ -1,5 +1,6 @@
 // g++ -o atcoder atcoder.cpp
 // ./atcoder
+// 2024/07/25
 
 #include <algorithm>
 #include <cmath>
@@ -12,24 +13,24 @@ int main() {
   int T, N;
   cin >> T >> N;
 
-  vector<int> L(N);
-  vector<int> R(N);
-
-  for (int i = 0; i < N; i++) cin >> L[i] >> R[i];
-  
-  vector<int> increment(T);
+  vector<int> In(N);
+  vector<int> Out(N);
 
   for (int i = 0; i < N; i++) {
-    increment[L[i]]++;
-
-    if (R[i] < T) {
-      increment[R[i] + 1]--;
-    }
+    cin >> In[i] >> Out[i];
   }
 
-  vector<int> staffNum(T);
+  vector<int> Increment(T + 1, 0);
+  for (int i = 0; i < N; i++) {
+    Increment[In[i]]++;
+    Increment[Out[i]]--;
+  }
+  
+  vector<int> staffNum(T + 1, 0);
+  for (int i = 1; i <= T; i++) {
+    staffNum[i] = staffNum[i - 1] + Increment[i];
+  }
 
-  staffNum[0] = increment[0];
-  for (int i = 1; i < T; i++) staffNum[i] = staffNum[i - 1] + increment[i];
-  for (int i = 0; i < T; i++) cout << i << ":" << staffNum[i] << endl;
+
+  for (int i = 0; i <= T; i++) cout << i << ":" << staffNum[i] << endl;
 }
