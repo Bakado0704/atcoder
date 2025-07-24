@@ -1,5 +1,6 @@
 // g++ -o atcoder atcoder.cpp
 // ./atcoder
+// 2025/07/24
 
 #include <algorithm>
 #include <cmath>
@@ -11,33 +12,36 @@ using namespace std;
 int main() {
   int N, Q;
   cin >> N >> Q;
-
   vector<int> A(N);
 
-  int sum = 0;
-
   for (int i = 0; i < N; i++) {
-    int a;
-    cin >> a;
-    A[i] = sum + a;
-    sum += a;
+    cin >> A[i];
   }
 
-  vector<int> B(Q);
-  vector<int> C(Q); 
+  vector<int> IncrementA(N + 1, 0);
+
+  for (int i = 1; i <= N; i++) {
+    IncrementA[i] = A[i - 1] + IncrementA[i - 1];
+  }
+
+  vector<int> L(Q);
+  vector<int> R(Q);
 
   for (int i = 0; i < Q; i++) {
-    cin >> B[i] >> C[i];
-    int sumCount = C[i] - B[i] + 1;
-    int winCount = A[C[i] - 1] - A[B[i] - 2];
-    int loseCount = sumCount - winCount;
+    cin >> L[i] >> R[i];
+  }
 
-    if (winCount > loseCount) {
-      cout << "当たりが多い" << endl;
-    } else if (winCount == loseCount) {
+  for (int i = 0; i < Q; i++) {
+    int sum = R[i] - L[i] + 1;
+    int winNum = IncrementA[R[i]] - IncrementA[L[i] - 1];
+    int loseNum = sum - winNum;
+
+    if (winNum > loseNum) {
+      cout << "あたり" << endl;
+    } else if (winNum == loseNum) {
       cout << "同じ" << endl;
     } else {
-      cout << "ハズレが多い" << endl;
+      cout << "はずれ" << endl;
     }
   }
 }
