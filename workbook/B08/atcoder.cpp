@@ -1,6 +1,6 @@
 // g++ -o atcoder atcoder.cpp
 // ./atcoder
-// 2024/07/25
+// 2025/07/27
 
 #include <algorithm>
 #include <cmath>
@@ -10,7 +10,7 @@
 using namespace std;
 
 int main() {
-  int N;
+  int N, Q;
   cin >> N;
 
   vector<int> X(N);
@@ -28,35 +28,43 @@ int main() {
 
   vector<vector<int>> IncrementA(1502, vector<int>(1502, 0));
 
-  // Y方向に加算
-  for (int i = 1; i < 1502; i++) {
-    for (int j = 1; j < 1502; j++) {
-      IncrementA[i][j] = IncrementA[i][j - 1] + Increment[i][j];
+  for (int i = 0; i < 1502; i++) {
+    for (int j = 0; j < 1502; j++) {
+      if (j == 0) {
+        IncrementA[i][j] = Increment[i][j];
+      } else {
+        IncrementA[i][j] = Increment[i][j] + IncrementA[i][j - 1];
+      }
     }
   }
 
-  // X方向に加算
   for (int i = 1; i < 1502; i++) {
-    for (int j = 1; j < 1502; j++) {
+    for (int j = 0; j < 1502; j++) {
       IncrementA[i][j] = IncrementA[i - 1][j] + IncrementA[i][j];
     }
   }
 
-  int Q;
+  for (int i = 0; i < 10; i++) {
+    for (int j = 0; j < 10; j++) {
+      cout << IncrementA[i][j] << " ";
+    }
+    cout << endl;
+  }
+
   cin >> Q;
 
-  vector<int> a(Q);
-  vector<int> b(Q);
-  vector<int> c(Q);
-  vector<int> d(Q);
+  vector<int> A(Q);
+  vector<int> B(Q);
+  vector<int> C(Q);
+  vector<int> D(Q);
 
   for (int i = 0; i < Q; i++) {
-    cin >> a[i] >> b[i] >> c[i] >> d[i];
+    cin >> A[i] >> B[i] >> C[i] >> D[i];
   }
 
   for (int i = 0; i < Q; i++) {
-    int ans = IncrementA[c[i] + 1][d[i] + 1] + IncrementA[a[i]][b[i]] -
-              IncrementA[c[i] + 1][b[i]] - IncrementA[a[i]][d[i] + 1];
-    cout << ans << endl;
+    cout << IncrementA[A[i]][B[i]] + IncrementA[C[i] + 1][D[i] + 1] -
+                IncrementA[A[i]][D[i] + 1] - IncrementA[C[i] + 1][B[i]]
+         << endl;
   }
 }
