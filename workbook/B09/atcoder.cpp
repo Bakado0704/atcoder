@@ -1,5 +1,6 @@
 // g++ -std=c++11 -o atcoder atcoder.cpp
 // ./atcoder
+// 2025/8/4
 
 #include <algorithm>
 #include <cmath>
@@ -12,6 +13,8 @@ int main() {
   int N;
   cin >> N;
 
+  vector<vector<int>> Increment(1501, vector<int>(1501, 0));
+
   vector<int> A(N);
   vector<int> B(N);
   vector<int> C(N);
@@ -21,44 +24,41 @@ int main() {
     cin >> A[i] >> B[i] >> C[i] >> D[i];
   }
 
-  vector<vector<int>> Increment(1501, vector<int>(1501, 0));
-
   for (int i = 0; i < N; i++) {
     Increment[A[i]][B[i]]++;
     Increment[C[i]][D[i]]++;
-    Increment[C[i]][B[i]]--;
     Increment[A[i]][D[i]]--;
+    Increment[C[i]][B[i]]--;
   }
 
-  vector<vector<int>> Ans(1501, vector<int>(1501, 0));
+  vector<vector<int>> Sum(1501, vector<int>(1501, 0));
 
-  // 横方向への加算
-  for (int i = 0; i <= 1500; i++) {
-    for (int j = 0; j <= 1500; j++) {
-      if (j == 0) {
-        Ans[i][j] = Increment[i][j];
+  // 　横に加算
+  for (int i = 0; i < 1501; i++) {
+    for (int j = 0; j < 1501; j++) {
+      if (i == 0) {
+        Sum[i][j] = Increment[i][j];
       } else {
-        Ans[i][j] = Ans[i][j - 1] + Increment[i][j];
+        Sum[i][j] = Sum[i - 1][j] + Increment[i][j];
       }
     }
   }
 
-  // 縦方向への加算
-  for (int i = 1; i <= 1500; i++) {
-    for (int j = 0; j <= 1500; j++) {
-      Ans[i][j] = Ans[i - 1][j] + Ans[i][j];
+  // 縦に加算
+  for (int i = 0; i < 1501; i++) {
+    for (int j = 1; j < 1501; j++) {
+      Sum[i][j] = Sum[i][j - 1] + Sum[i][j];
     }
   }
 
-  int sum = 0;
-
-  for (int i = 0; i <= 1500; i++) {
-    for (int j = 0; j <= 1500; j++) {
-      if (Ans[i][j] > 0) {
-        sum++;
+  int ans = 0;
+  for (int i = 0; i < 1501; i++) {
+    for (int j = 0; j < 1501; j++) {
+      if (Sum[i][j] > 0) {
+        ans++;
       }
     }
   }
 
-  cout << sum << endl;
+  cout << ans << endl;
 }
