@@ -1,6 +1,6 @@
 // g++ -std=c++11 -o atcoder atcoder.cpp
 // ./atcoder
-// 7/27
+// 2025/8/4
 
 #include <algorithm>
 #include <cmath>
@@ -10,8 +10,10 @@
 using namespace std;
 
 int main() {
-  int W, H, N;
-  cin >> W >> H >> N;
+  int H, W, N;
+  cin >> H >> W >> N;
+
+  vector<vector<int>> Increase(H + 1, vector<int>(W + 1, 0));
   vector<int> A(N);
   vector<int> B(N);
   vector<int> C(N);
@@ -21,38 +23,36 @@ int main() {
     cin >> A[i] >> B[i] >> C[i] >> D[i];
   }
 
-  vector<vector<int>> Increment(W + 1, vector<int>(H + 1, 0));
-
   for (int i = 0; i < N; i++) {
-    Increment[A[i] - 1][B[i] - 1]++;
-    Increment[C[i]][D[i]]++;
-    Increment[A[i] - 1][D[i]]--;
-    Increment[C[i]][B[i] - 1]--;
+    Increase[A[i] - 1][B[i] - 1]++;
+    Increase[C[i]][D[i]]++;
+    Increase[A[i] - 1][D[i]]--;
+    Increase[C[i]][B[i] - 1]--;
   }
 
-  vector<vector<int>> Ans(W + 1, vector<int>(H + 1, 0));
+  vector<vector<int>> Snow(H, vector<int>(W, 0));
 
-  // 横方向に加算
-  for (int i = 0; i <= W; i++) {
-    for (int j = 0; j <= H; j++) {
+  // 横に加算
+  for (int i = 0; i < H; i++) {
+    for (int j = 0; j < W; j++) {
       if (j == 0) {
-        Ans[i][j] = Increment[i][j];
+        Snow[i][j] = Increase[i][j];
       } else {
-        Ans[i][j] = Ans[i][j - 1] + Increment[i][j];
+        Snow[i][j] = Snow[i][j - 1] + Increase[i][j];
       }
     }
   }
 
-  // 縦方向に加算
-  for (int i = 1; i <= W; i++) {
-    for (int j = 0; j <= H; j++) {
-      Ans[i][j] = Ans[i - 1][j] + Ans[i][j];
+  // 　縦に加算
+  for (int i = 1; i < H; i++) {
+    for (int j = 0; j < W; j++) {
+      Snow[i][j] = Snow[i - 1][j] + Snow[i][j];
     }
   }
 
-  for (int i = 0; i < W; i++) {
-    for (int j = 0; j < H; j++) {
-      cout << Ans[i][j] << " ";
+  for (int i = 0; i < H; i++) {
+    for (int j = 0; j < W; j++) {
+      cout << Snow[i][j] << " ";
     }
     cout << endl;
   }
