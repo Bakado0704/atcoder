@@ -1,6 +1,6 @@
 // g++ -std=c++11 -o atcoder atcoder.cpp
 // ./atcoder
-// 2025/8/4
+// 2025/9/7
 
 #include <algorithm>
 #include <cmath>
@@ -18,31 +18,34 @@ int main() {
     cin >> Room[i];
   }
 
-  vector<int> RoomIncrease(N);
-  vector<int> RoomDecrease(N);
-
-  RoomIncrease[0] = Room[0];
-  RoomDecrease[N - 1] = Room[N - 1];
-
-  for (int i = 1; i < N; i++) {
-    RoomIncrease[i] = max(RoomIncrease[i - 1], Room[i]);
-  }
-
-  for (int i = N - 2; i >= 0; i--) {
-    RoomDecrease[i] = max(RoomDecrease[i + 1], Room[i]);
-  }
-
   int D;
   cin >> D;
 
-  vector<int> A(D);
-  vector<int> B(D);
+  vector<int> L(D);
+  vector<int> R(D);
 
   for (int i = 0; i < D; i++) {
-    cin >> A[i] >> B[i];
+    cin >> L[i] >> R[i];
+  }
+
+  vector<int> Increment(N);
+  vector<int> Decrement(N);
+
+  for (int i = 0; i < N; i++) {
+    if (i == 0) {
+      Increment[0] = Room[0];
+    }
+    Increment[i] = max(Room[i], Increment[i - 1]);
+  }
+
+  for (int i = N - 1; i >= 0; i--) {
+    if (i == N - 1) {
+      Decrement[N - 1] = Room[N - 1];
+    }
+    Decrement[i] = max(Decrement[i + 1], Room[i]);
   }
 
   for (int i = 0; i < D; i++) {
-    cout << max(RoomIncrease[A[i] - 2], RoomDecrease[B[i]]) << endl;
+    cout << max(Increment[L[i] - 2], Decrement[R[i]]) << endl;
   }
 }
