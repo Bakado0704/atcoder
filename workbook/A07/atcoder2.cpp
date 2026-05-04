@@ -13,18 +13,19 @@ int main() {
   int D, N;
   cin >> D >> N;
 
-  vector<int> Person(D + 1);
   vector<int> L(N);
   vector<int> R(N);
 
+  for (int i = 0; i < N; i++) cin >> L[i] >> R[i];
+
+  vector<int> increase(D);
   for (int i = 0; i < N; i++) {
-    cin >> L[i] >> R[i];
-    Person[L[i] - 1]++;
-    Person[R[i]]--;
+    increase[L[i] - 1]++;
+    increase[R[i]]--;
   }
 
-  vector<int> Ans(D);
-  Ans[0] = Person[0];
-  for (int i = 1; i < D; i++) Ans[i] = Ans[i - 1] + Person[i];
-  for (int i = 0; i < D; i++) cout << Ans[i] << endl;
+  vector<int> answer(D);
+  answer[0] = increase[0];
+  for (int i = 1; i < D; i++) answer[i] = answer[i - 1] + increase[i];
+  for (int i = 0; i < D; i++) cout << answer[i] << endl;
 }
