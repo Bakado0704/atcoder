@@ -13,9 +13,13 @@ int main() {
   cin >> N >> Q;
 
   vector<int> A(N);
+  int sum = 0;
 
   for (int i = 0; i < N; i++) {
-    cin >> A[i];
+    int a;
+    cin >> a;
+    A[i] = sum + a;
+    sum += a;
   }
 
   vector<int> L(Q);
@@ -25,16 +29,7 @@ int main() {
     cin >> L[i] >> R[i];
   }
 
-  vector<int> accumulate(N);
-  accumulate[0] = A[0];
-
-  for (int i = 1; i < N; i++) {
-    accumulate[i] = A[i] + accumulate[i - 1];
-
-  }
-
   for (int i = 0; i < Q; i++) {
-    int ans = accumulate[R[i] - 1] - accumulate[L[i] - 2];
-    cout << ans << endl;
+    cout << A[R[i] - 1] - A[L[i] - 2] << endl;
   }
 }
