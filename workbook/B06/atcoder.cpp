@@ -1,6 +1,6 @@
 // g++ -o atcoder atcoder.cpp
 // ./atcoder
-// 2025/07/24
+// 2026/5/4
 
 #include <algorithm>
 #include <cmath>
@@ -9,19 +9,29 @@
 
 using namespace std;
 
+string check(int winNum, int loseNum) {
+  if (winNum > loseNum) {
+    return "当たりが多い";
+  } else if (winNum == loseNum) {
+    return "同じ";
+  } else {
+    return "ハズレが多い";
+  }
+}
+
 int main() {
   int N, Q;
   cin >> N >> Q;
   vector<int> A(N);
+  vector<int> Accumulate(N);
 
   for (int i = 0; i < N; i++) {
     cin >> A[i];
-  }
-
-  vector<int> IncrementA(N + 1, 0);
-
-  for (int i = 1; i <= N; i++) {
-    IncrementA[i] = A[i - 1] + IncrementA[i - 1];
+    if (i == 0) {
+      Accumulate[0] = A[0];
+    } else {
+      Accumulate[i] = A[i] + Accumulate[i - 1];
+    }
   }
 
   vector<int> L(Q);
@@ -29,19 +39,12 @@ int main() {
 
   for (int i = 0; i < Q; i++) {
     cin >> L[i] >> R[i];
-  }
 
-  for (int i = 0; i < Q; i++) {
-    int sum = R[i] - L[i] + 1;
-    int winNum = IncrementA[R[i]] - IncrementA[L[i] - 1];
-    int loseNum = sum - winNum;
+    int winNum = Accumulate[R[i] - 1] - Accumulate[L[i] - 2];
+    int loseNum = (R[i] - L[i] + 1) - winNum;
 
-    if (winNum > loseNum) {
-      cout << "あたり" << endl;
-    } else if (winNum == loseNum) {
-      cout << "同じ" << endl;
-    } else {
-      cout << "はずれ" << endl;
-    }
+    string ans = check(winNum, loseNum);
+
+    cout << ans << endl;
   }
 }
