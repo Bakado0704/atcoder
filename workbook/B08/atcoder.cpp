@@ -1,6 +1,6 @@
 // g++ -o atcoder atcoder.cpp
 // ./atcoder
-// 2025/07/27
+// 2026/5/6
 
 #include <algorithm>
 #include <cmath>
@@ -15,40 +15,25 @@ int main() {
 
   vector<int> X(N);
   vector<int> Y(N);
+  vector<vector<int>> Table(102, vector<int>(102, 0));
 
   for (int i = 0; i < N; i++) {
     cin >> X[i] >> Y[i];
+    Table[X[i]+1][Y[i]+1]++;
   }
 
-  vector<vector<int>> Increment(1502, vector<int>(1502, 0));
-
-  for (int i = 0; i < N; i++) {
-    Increment[X[i] + 1][Y[i] + 1]++;
-  }
-
-  vector<vector<int>> IncrementA(1502, vector<int>(1502, 0));
-
-  for (int i = 0; i < 1502; i++) {
-    for (int j = 0; j < 1502; j++) {
-      if (j == 0) {
-        IncrementA[i][j] = Increment[i][j];
-      } else {
-        IncrementA[i][j] = Increment[i][j] + IncrementA[i][j - 1];
-      }
+  // 横方向に加算
+  for (int j = 0; j < 102; j++) {
+    for (int i = 1; i < 102; i++) {
+      Table[i][j] = Table[i - 1][j] + Table[i][j];
     }
   }
 
-  for (int i = 1; i < 1502; i++) {
-    for (int j = 0; j < 1502; j++) {
-      IncrementA[i][j] = IncrementA[i - 1][j] + IncrementA[i][j];
+  // 縦方向に加算
+  for (int j = 1; j < 102; j++) {
+    for (int i = 0; i < 102; i++) {
+      Table[i][j] = Table[i][j - 1] + Table[i][j];
     }
-  }
-
-  for (int i = 0; i < 10; i++) {
-    for (int j = 0; j < 10; j++) {
-      cout << IncrementA[i][j] << " ";
-    }
-    cout << endl;
   }
 
   cin >> Q;
@@ -60,11 +45,9 @@ int main() {
 
   for (int i = 0; i < Q; i++) {
     cin >> A[i] >> B[i] >> C[i] >> D[i];
-  }
 
-  for (int i = 0; i < Q; i++) {
-    cout << IncrementA[A[i]][B[i]] + IncrementA[C[i] + 1][D[i] + 1] -
-                IncrementA[A[i]][D[i] + 1] - IncrementA[C[i] + 1][B[i]]
-         << endl;
+    int ans = Table[C[i] + 1][D[i] + 1] + Table[A[i]][B[i]] - Table[A[i]][D[i] + 1] - Table[C[i] + 1][B[i]];
+
+    cout << ans << endl;
   }
 }
