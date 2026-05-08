@@ -1,6 +1,6 @@
 // g++ -std=c++11 -o atcoder atcoder.cpp
 // ./atcoder
-// 2026/5/8
+// 2025/8/4
 
 #include <algorithm>
 #include <cmath>
@@ -22,31 +22,41 @@ int main() {
 
   for (int i = 0; i < N; i++) {
     cin >> A[i] >> B[i] >> C[i] >> D[i];
+  }
+
+  for (int i = 0; i < N; i++) {
     Increment[A[i]][B[i]]++;
     Increment[C[i]][D[i]]++;
     Increment[A[i]][D[i]]--;
     Increment[C[i]][B[i]]--;
   }
 
-  // 横に加算
-  for (int i = 1; i < 1501; i++) {
+  vector<vector<int>> Sum(1501, vector<int>(1501, 0));
+
+  // 　横に加算
+  for (int i = 0; i < 1501; i++) {
     for (int j = 0; j < 1501; j++) {
-      Increment[i][j] = Increment[i - 1][j] + Increment[i][j];
+      if (i == 0) {
+        Sum[i][j] = Increment[i][j];
+      } else {
+        Sum[i][j] = Sum[i - 1][j] + Increment[i][j];
+      }
     }
   }
 
   // 縦に加算
   for (int i = 0; i < 1501; i++) {
     for (int j = 1; j < 1501; j++) {
-      Increment[i][j] = Increment[i][j - 1] + Increment[i][j];
+      Sum[i][j] = Sum[i][j - 1] + Sum[i][j];
     }
   }
 
   int ans = 0;
-
   for (int i = 0; i < 1501; i++) {
     for (int j = 0; j < 1501; j++) {
-      if (Increment[i][j] > 0) ans++;
+      if (Sum[i][j] > 0) {
+        ans++;
+      }
     }
   }
 
