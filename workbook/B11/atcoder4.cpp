@@ -1,6 +1,6 @@
 // g++ -std=c++11 -o atcoder atcoder.cpp
 // ./atcoder
-// 2026/6/14
+// 2026/5/20
 
 #include <algorithm>
 #include <cmath>
@@ -12,14 +12,14 @@ using namespace std;
 int search(int X, int N, vector<int> A) {
   int L = 0;
   int R = N - 1;
-  while(L <= R) {
+
+  while (L <= R) {
     int M = (L + R) / 2;
     if (A[M] < X) L = M + 1;
-    else if (A[M] == X) return M;
-    else if (A[M] > X) R = M - 1;
+    if (A[M] == X) return M;
+    if (A[M] > X) R = M - 1;
   }
-
-  return 0;
+  return -1;
 }
 
 int main() {
@@ -35,9 +35,7 @@ int main() {
 
   for (int i = 0; i < Q; i++) {
     cin >> X[i];
-
     int ans = search(X[i], N, A);
-
     cout << ans << endl;
-  }
+  };
 }
