@@ -1,6 +1,6 @@
 // g++ -std=c++11 -o atcoder atcoder.cpp
 // ./atcoder
-// 2026/6/15
+// 2026/6/16
 
 #include <algorithm>
 #include <cmath>
@@ -9,34 +9,35 @@
 
 using namespace std;
 
-int check(int N, int K, vector<int> A) {
-  int L = 0;
-  int R = N - 1;
-
-  while(L < R) {
-    int M = (L + R) / 2;
-    int ans = 0;
-    for (int i = 0; i < K; i++) {
-      ans += M / A[i];
-    }
-
-    if (ans < K) L = M + 1;
-    if (ans > K) M = M - 1;
-    if (ans == K) return M;
+bool check(long long M, int N, int K, vector<int> A) {
+  long long sum = 0;
+  for (int i = 0; i < N; i++) {
+    sum += M / A[i];
   }
+  if (sum >= K) return true;
 
-  return R;
+  return false;
 }
 
 int main() {
   int N, K;
-  vector<int> A(1009);
   cin >> N >> K;
+  vector<int> A(N);
   for (int i = 0; i < N; i++) {
     cin >> A[i];
   }
 
-  int ans = check(10, N, A);
+  long long Left = 0;
+  long long Right = 1000;
+  while (Left < Right) {
+    long long M = (Left + Right) / 2;
+    bool isSumLargerThanK = check(M, N, K, A);
+    if (isSumLargerThanK) {
+      Right = M;
+    } else {
+      Left = M + 1;
+    }
+  }
 
-  cout << ans << endl;
+  cout << Left << endl;
 }
