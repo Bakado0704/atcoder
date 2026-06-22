@@ -1,6 +1,6 @@
 // g++ -std=c++11 -o atcoder atcoder.cpp
 // ./atcoder
-// 2026/6/22
+// 2025/8/5
 
 #include <algorithm>
 #include <cmath>
@@ -9,8 +9,11 @@
 
 using namespace std;
 
-bool check(long long Mid, int N) { 
-  long long sum = Mid * Mid * Mid + Mid; 
+vector<int> A(1009);
+int N;
+
+bool check(long long x) {
+  long long sum = x * x * x + x;
   if (sum >= N) {
     return true;
   } else {
@@ -19,22 +22,21 @@ bool check(long long Mid, int N) {
 }
 
 int main() {
-  int N;
   cin >> N;
 
   long long Left = 0;
-  long long Right = 10000;
+  long long Right = 100000;
 
   while (Left < Right) {
-    long long Mid = (Left + Right) / 2;
-    bool ans = check(Mid, N);
+    int Mid = (Left + Right) / 2;
+    bool ans = check(Mid);
 
-    if (ans == true) {
+    if (ans) {
       Right = Mid;
     } else {
       Left = Mid + 1;
     }
   }
 
-  cout << Left << endl;
+  cout << Left << endl; 
 }
