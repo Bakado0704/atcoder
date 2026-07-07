@@ -1,6 +1,6 @@
 // g++ -std=c++11 -o atcoder atcoder.cpp
 // ./atcoder
-// 2026/7/7
+// 2026/6/26
 
 #include <algorithm>
 #include <cmath>
@@ -18,21 +18,17 @@ int main() {
   for (int i = 0; i < N; i++) cin >> A[i];
 
   for (int i = 0; i < N; i++) {
-    if (i == 0) {
-      R[i] = 0;
-    } else {
-      R[i] = R[i - 1];
-    }
+    R[i] = i + 1;
 
-    while (R[i] < N && A[R[i]] - A[i] <= K) {
+    while (R[i] < N || A[R[i]] - A[i] <= K) {
       R[i]++;
     }
   }
 
-  int ans = 0;
+  long long ans = 0;
 
   for (int i = 0; i < N; i++) {
-    ans += R[i] - (1 + i);
+    ans += R[i] - (i + 1);
   }
 
   cout << ans << endl;
