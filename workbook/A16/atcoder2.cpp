@@ -1,6 +1,6 @@
 // g++ -std=c++11 -o atcoder atcoder.cpp
 // ./atcoder
-// 2026/7/17
+// 2026/7/16
 
 #include <algorithm>
 #include <cmath>
@@ -14,6 +14,7 @@ int main() {
   cin >> N;
   vector<int> A(N - 1);
   vector<int> B(N - 2);
+
   for (int i = 0; i < N - 1; i++) cin >> A[i];
   for (int i = 0; i < N - 2; i++) cin >> B[i];
 
