@@ -1,6 +1,6 @@
 // g++ -std=c++11 -o atcoder atcoder.cpp
 // ./atcoder
-// 2026/7/23
+// 2026/7/22
 
 #include <algorithm>
 #include <cmath>
@@ -25,10 +25,9 @@ int main() {
   }
 
   int place = N;
-  while (true) {
+  for (int i = 1; i <= N; i++) {
     Answer.push_back(place);
     if (place == 1) break;
-
     if (DP[place] == DP[place - 1] + A[place - 2])
       place--;
     else
@@ -44,5 +43,4 @@ int main() {
   }
 
   cout << endl;
-  return 0;
 }
