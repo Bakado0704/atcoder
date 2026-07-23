@@ -1,6 +1,6 @@
 // g++ -std=c++11 -o atcoder atcoder.cpp
 // ./atcoder
-// 2026/7/24
+// 2026/7/23
 
 #include <algorithm>
 #include <cmath>
@@ -28,6 +28,7 @@ int main() {
   int place = N;
   while (true) {
     Answer.push_back(place);
+
     if (place == 1) break;
 
     int diff = abs(H[place - 1] - H[place - 2]);
