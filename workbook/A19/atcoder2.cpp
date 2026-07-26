@@ -1,6 +1,6 @@
 // g++ -std=c++11 -o atcoder atcoder.cpp
 // ./atcoder
-// 2026/7/27
+// 2026/7/26
 
 #include <algorithm>
 #include <cmath>
@@ -16,7 +16,7 @@ int main() {
   vector<int> v(N);
 
   for (int i = 1; i <= N; i++) cin >> w[i] >> v[i];
-  int DP[N + 1][W + 1];
+  long long DP[N + 1][W + 1];
 
   for (int i = 0; i <= N; i++) {
     for (int j = 0; j <= W; j++) {
@@ -26,18 +26,18 @@ int main() {
 
   for (int i = 1; i <= N; i++) {
     for (int j = 0; j <= W; j++) {
-      if (j < w[i])
+      if (j < w[i]) {
         DP[i][j] = DP[i - 1][j];
-      else
+      } else {
         DP[i][j] = max(DP[i - 1][j], DP[i - 1][j - w[i]] + v[i]);
+      }
     }
   }
 
-  int Answer = 0;
+  long long Answer = 0;
   for (int j = 0; j <= W; j++) {
     Answer = max(Answer, DP[N][j]);
   }
 
   cout << Answer << endl;
-  return 0;
 }
