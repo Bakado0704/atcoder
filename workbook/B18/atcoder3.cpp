@@ -1,6 +1,6 @@
 // g++ -std=c++11 -o atcoder atcoder.cpp
 // ./atcoder
-// 2026/7/29
+// 2026/7/28
 
 #include <algorithm>
 #include <cmath>
@@ -15,11 +15,13 @@ int main() {
   vector<int> A(N + 1);
   for (int i = 1; i <= N; i++) cin >> A[i];
   int maxNum = 0;
-  for (int i = 1; i <= N; i++) maxNum += A[i];
-  bool DP[N + 1][maxNum + 1];
+  for (int i = 1; i <= N; i++) {
+    maxNum += A[i];
+  }
 
+  bool DP[N + 1][maxNum + 1];
   for (int i = 0; i <= N; i++) {
-    for (int j = 0; j <= S; j++) {
+    for (int j = 0; j <= maxNum; j++) {
       DP[i][j] = false;
     }
   }
@@ -27,13 +29,13 @@ int main() {
   DP[0][0] = true;
 
   for (int i = 1; i <= N; i++) {
-    for (int j = 0; j <= S; j++) {
+    for (int j = 0; j <= maxNum; j++) {
       if (j < A[i]) {
         if (DP[i - 1][j] == true) {
           DP[i][j] = true;
         }
       } else {
-        if (DP[i - 1][j] == true || DP[i - 1][j - A[i]] == true) {
+        if (DP[i - 1][j] == true || DP[i - 1][j - A[i]]) {
           DP[i][j] = true;
         }
       }
@@ -43,14 +45,13 @@ int main() {
   vector<int> Answer;
 
   if (DP[N][S] == true) {
+    int amount = S;
     int index = N;
-    int value = S;
     while (true) {
-      if (index == 0 || value < A[index]) break;
-
-      if (DP[index - 1][value - A[index]] == true) {
+      if (index == 0 || amount < A[index]) break;
+      if (DP[index - 1][amount - A[index]] == true) {
         Answer.push_back(A[index]);
-        value -= A[index];
+        amount -= A[index];
       }
       index--;
     }
@@ -62,9 +63,9 @@ int main() {
     }
 
     cout << endl;
-    return 0;
   } else {
-    cout << "その数値はあり得ません" << endl;
-    return 0;
+    cout << "その数値はあり得ないです" << endl;
   }
+
+  return 0;
 }
