@@ -1,6 +1,6 @@
 // g++ -std=c++11 -o atcoder atcoder.cpp
 // ./atcoder
-// 2026/8/2
+// 2026/7/31
 
 #include <algorithm>
 #include <cmath>
@@ -11,11 +11,14 @@ using namespace std;
 
 int main() {
   string S, T;
-  cin >> S >> T;
+  cin >> S;
   int N = S.size();
+  cin >> T;
   int M = T.size();
-  vector<vector<int>> DP(N + 1, vector<int>(M + 1, 0));
 
+  int DP[100][100];
+
+  DP[0][0] = 0;
   for (int i = 0; i <= N; i++) {
     for (int j = 0; j <= M; j++) {
       if (i >= 1 && j >= 1 && S[i - 1] == T[j - 1]) {
@@ -31,6 +34,5 @@ int main() {
   }
 
   cout << DP[N][M] << endl;
-
   return 0;
 }
