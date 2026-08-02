@@ -31,5 +31,6 @@ int main() {
   }
 
   cout << DP[N][M] << endl;
+
   return 0;
 }
