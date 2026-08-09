@@ -1,6 +1,6 @@
 // g++ -std=c++11 -o atcoder atcoder.cpp
 // ./atcoder
-// 2026/8/10
+// 2026/8/9
 
 #include <algorithm>
 #include <cmath>
@@ -23,7 +23,7 @@ int main() {
       int r = l + LEN + 1;
 
       if (S[l - 1] == S[r - 1]) {
-        if (LEN == 2) {
+        if (LEN == 0) {
           DP[l][r] = 2;
         } else {
           DP[l][r] = DP[l + 1][r - 1] + 2;
@@ -33,7 +33,6 @@ int main() {
       }
     }
   }
-
   cout << DP[1][N] << endl;
   return 0;
 }
