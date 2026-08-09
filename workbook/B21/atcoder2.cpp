@@ -1,6 +1,6 @@
 // g++ -std=c++11 -o atcoder atcoder.cpp
 // ./atcoder
-// 2026/8/9
+// 2026/8/8
 
 #include <algorithm>
 #include <cmath>
@@ -33,6 +33,6 @@ int main() {
       }
     }
   }
+
   cout << DP[1][N] << endl;
-  return 0;
 }
