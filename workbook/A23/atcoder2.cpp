@@ -1,6 +1,6 @@
 // g++ -std=c++11 -o atcoder atcoder.cpp
 // ./atcoder
-// 2026/8/19
+// 2026/8/17
 
 #include <algorithm>
 #include <cmath>
@@ -10,7 +10,7 @@
 using namespace std;
 
 int N, M, A[109][19];
-int DP[109][1024];
+int dp[109][1024];
 
 int main() {
   cin >> N >> M;
@@ -22,21 +22,20 @@ int main() {
 
   for (int i = 0; i <= M; i++) {
     for (int j = 0; j < (1 << N); j++) {
-      DP[i][j] = 1000;
+      dp[i][j] = 1000;
     }
   }
 
-  DP[0][0] = 0;
+  dp[0][0] = 0;
   for (int i = 1; i <= M; i++) {
     for (int j = 0; j < (1 << N); j++) {
       int already[19];
 
       for (int k = 1; k <= N; k++) {
-        if ((j / (1 << (k - 1))) % 2 == 0) {
+        if ((j / (1 << (k - 1))) % 2 == 0)
           already[k] = 0;
-        } else {
+        else
           already[k] = 1;
-        }
       }
 
       int v = 0;
@@ -44,15 +43,14 @@ int main() {
         if (already[k] == 1 || A[i][k] == 1) v += (1 << (k - 1));
       }
 
-      DP[i][j] = min(DP[i - 1][j], DP[i][j]);
-      DP[i][v] = min(DP[i - 1][j] + 1, DP[i][v]);
+      dp[i][j] = min(dp[i][j], dp[i - 1][j]);
+      dp[i][v] = min(dp[i][v], dp[i - 1][j] + 1);
     }
   }
 
-  if (DP[M][(1 << N)] == 1000)
+  if (dp[M][(1 << N) - 1] == 1000)
     cout << "-1" << endl;
   else
-    cout << DP[M][(1 << N) - 1] << endl;
-
+    cout << dp[M][(1 << N) - 1] << endl;
   return 0;
 }
