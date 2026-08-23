@@ -1,6 +1,6 @@
 // g++ -std=c++11 -o atcoder atcoder.cpp
 // ./atcoder
-// 2026/8/23
+// 2026/8/19
 
 #include <algorithm>
 #include <cmath>
@@ -9,19 +9,24 @@
 
 using namespace std;
 
+int N, M, A[109][19];
+int DP[109][1024];
+
 int main() {
-  int N, M;
   cin >> N >> M;
-  vector<vector<int>> A(M + 1, vector<int>(N + 1));
-  vector<vector<int>> DP(M + 1, vector<int>((1 << N), 1000));
   for (int i = 1; i <= M; i++) {
     for (int j = 1; j <= N; j++) {
       cin >> A[i][j];
     }
   }
 
-  DP[0][0] = 0;
+  for (int i = 0; i <= M; i++) {
+    for (int j = 0; j < (1 << N); j++) {
+      DP[i][j] = 1000;
+    }
+  }
 
+  DP[0][0] = 0;
   for (int i = 1; i <= M; i++) {
     for (int j = 0; j < (1 << N); j++) {
       int already[19];
@@ -44,11 +49,10 @@ int main() {
     }
   }
 
-  if (DP[M][(1 << N) - 1] == 1000) {
+  if (DP[M][(1 << N)] == 1000)
     cout << "-1" << endl;
-  } else {
+  else
     cout << DP[M][(1 << N) - 1] << endl;
-  }
 
   return 0;
 }
