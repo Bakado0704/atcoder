@@ -1,6 +1,6 @@
 // g++ -std=c++11 -o atcoder atcoder.cpp
 // ./atcoder
-// 2026/8/23
+// 2026/8/27
 
 #include <algorithm>
 #include <cmath>
@@ -12,56 +12,39 @@ using namespace std;
 int main() {
   int N;
   cin >> N;
-
-  vector<double> X(N), Y(N);
-
+  vector<double> X(N);
+  vector<double> Y(N);
   for (int i = 0; i < N; i++) {
     cin >> X[i] >> Y[i];
   }
-
-  const double INF = 1e18;
-
-  // DP[S][v]
-  // = 集合Sの都市を訪問済みで、
-  //   現在都市vにいるときの最短距離
-  vector<vector<double>> DP(1 << N, vector<double>(N, INF));
-
-  // 都市0からスタート
-  DP[1 << 0][0] = 0;
+  int INF = 1000;
+  vector<vector<double>> DP((1 << N), vector<double>(N, INF));
+  DP[1][0] = 0;
 
   for (int S = 0; S < (1 << N); S++) {
     for (int v = 0; v < N; v++) {
-      // この状態にまだ到達していない
-      if (DP[S][v] == INF) continue;
+      if (DP[S][v] == 1000) continue;
 
-      // 次に行く都市uを選ぶ
       for (int u = 0; u < N; u++) {
-        // すでに都市uを訪問済みならスキップ
         if (S & (1 << u)) continue;
 
-        double dx = X[v] - X[u];
-        double dy = Y[v] - Y[u];
-        double dist = sqrt(dx * dx + dy * dy);
+        double diffX = X[v] - X[u];
+        double diffY = Y[v] - Y[u];
+        double diff = sqrt(diffX * diffX + diffY * diffY);
 
         int nextS = S | (1 << u);
-
-        DP[nextS][u] = min(DP[nextS][u], DP[S][v] + dist);
+        DP[nextS][u] = min(DP[nextS][u], DP[S][v] + diff);
       }
     }
   }
 
-  // 全都市訪問済み
   int all = (1 << N) - 1;
-
-  double ans = INF;
-
-  // 最後にいる都市vから、スタート地点0に戻る
+  double ans = 1000;
   for (int v = 0; v < N; v++) {
-    double dx = X[v] - X[0];
-    double dy = Y[v] - Y[0];
-    double dist = sqrt(dx * dx + dy * dy);
-
-    ans = min(ans, DP[all][v] + dist);
+    int x = X[v] - X[0];
+    int y = Y[v] - Y[0];
+    double diff = sqrt(x * x + y * y);
+    ans = min(ans, DP[all][v] + diff);
   }
 
   cout << ans << endl;
