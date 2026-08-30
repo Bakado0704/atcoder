@@ -14,24 +14,19 @@ int main() {
   cin >> N;
   vector<int> A(N);
   for (int i = 0; i < N; i++) cin >> A[i];
-
+  sort(A.begin(), A.end());
+  A.push_back(0);
+  A.push_back(0);
+  int i = 1;
   int ans = 0;
+  while (true) {
+    if (i == N + 1) break;
 
-  while (!A.empty()) {
-    int a = A.back();
-    A.pop_back();
-    bool found = false;
-
-    for (int i = 0; i < A.size(); i++) {
-      if (A[i] == a) {
-        A.erase(A.begin() + i);
-        found = true;
-        break;
-      }
-    }
-
-    if (!found) {
-      ans += a;
+    if (A[i] == A[i - 1]) {
+      i += 2;
+    } else {
+      ans += A[i - 1];
+      i++;
     }
   }
 
