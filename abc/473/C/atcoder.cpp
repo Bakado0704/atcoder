@@ -1,6 +1,6 @@
 // g++ -std=c++11 -o atcoder atcoder.cpp
 // ./atcoder
-// 2026/8/10
+// 2026/8/29
 
 #include <algorithm>
 #include <cmath>
