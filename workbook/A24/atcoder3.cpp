@@ -1,6 +1,6 @@
 // g++ -std=c++11 -o atcoder atcoder.cpp
 // ./atcoder
-// 2026/9/1
+// 2026/8/31
 
 #include <algorithm>
 #include <cmath>
@@ -16,9 +16,8 @@ int main() {
   int N;
   cin >> N;
   vector<int> A(N);
-  for (int i = 1; i <= N; i++) cin >> A[i];
-
-  for (int i = 1; i <= N; i++) {
+  for (int i = 0; i < N; i++) cin >> A[i];
+  for (int i = 0; i < N; i++) {
     int pos = lower_bound(L + 1, L + LEN + 1, A[i]) - L;
     DP[i] = pos;
     L[DP[i]] = A[i];
@@ -26,6 +25,5 @@ int main() {
   }
 
   cout << LEN << endl;
-
   return 0;
 }
