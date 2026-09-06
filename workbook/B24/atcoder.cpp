@@ -1,29 +1,31 @@
 // g++ -std=c++11 -o atcoder atcoder.cpp
 // ./atcoder
-// 2026/9/6
+// 2026/9/7
 
 #include <algorithm>
-#include <cmath>
 #include <iostream>
 #include <vector>
 
 using namespace std;
 
+int DP[1000], L[1000];
+int LEN = 0;
+
 int main() {
   int N;
   cin >> N;
 
-  vector<pair<int, int>> boxes(N);
+  vector<pair<int, int>> box(N);
 
   for (int i = 0; i < N; i++) {
     int X, Y;
     cin >> X >> Y;
-    boxes[i] = {X, Y};
+    box[i] = {X, Y};
   }
 
-  // Xは昇順
-  // Xが同じ場合、Yは降順
-  sort(boxes.begin(), boxes.end(),
+  // Xを昇順にする
+  // Xが同じならYを降順にする
+  sort(box.begin(), box.end(),
        [](const pair<int, int>& a, const pair<int, int>& b) {
          if (a.first != b.first) {
            return a.first < b.first;
@@ -32,21 +34,20 @@ int main() {
        });
 
   // YについてLISを求める
-  vector<int> L;
-
   for (int i = 0; i < N; i++) {
-    int y = boxes[i].second;
+    int Y = box[i].second;
 
-    auto itr = lower_bound(L.begin(), L.end(), y);
+    int pos = lower_bound(L + 1, L + LEN + 1, Y) - L;
 
-    if (itr == L.end()) {
-      L.push_back(y);
-    } else {
-      *itr = y;
+    DP[i] = pos;
+    L[pos] = Y;
+
+    if (DP[i] > LEN) {
+      LEN++;
     }
   }
 
-  cout << L.size() << endl;
+  cout << LEN << endl;
 
   return 0;
 }
