@@ -14,26 +14,27 @@ int main() {
   cin >> N >> Q;
   vector<int> P(N + 1);
   vector<int> a(Q + 1);
+  vector<int> last(N + 1, -1);  // aの順位を格納するvector
+
   for (int i = 1; i <= N; i++) cin >> P[i];
   for (int j = 1; j <= Q; j++) cin >> a[j];
-  vector<int> last(N + 1, -1);
-  vector<pair<int, int>> move;
-
   for (int j = 1; j <= Q; j++) {
     last[a[j]] = j;
   }
+
+  vector<pair<int, int>> moved;
 
   for (int i = 1; i <= N; i++) {
     if (last[P[i]] == -1) {
       cout << P[i] << " ";
     } else {
-      move.push_back({last[P[i]], P[i]});  // index, 値
+      moved.push_back({last[P[i]], P[i]});  // 後者のPは何番目かを格納する
     }
   }
 
-  sort(move.begin(), move.end());
+  sort(moved.begin(), moved.end());
 
-  for (auto p : move) {
+  for (pair<int, int> p : moved) {
     cout << p.second << " ";
   }
 
