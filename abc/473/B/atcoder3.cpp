@@ -18,20 +18,20 @@ int main() {
   int ans = 0;
 
   while (!A.empty()) {
-    bool found = false;
-    int target = A.back();
+    int a = A.back();
     A.pop_back();
+    bool found = false;
 
     for (int i = 0; i < A.size(); i++) {
-      if (A[i] == target) {
-        found = true;
+      if (A[i] == a) {
         A.erase(A.begin() + i);
+        found = true;
         break;
       }
     }
 
     if (!found) {
-      ans += target;
+      ans += a;
     }
   }
 
