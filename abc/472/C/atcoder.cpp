@@ -1,6 +1,6 @@
 // g++ -std=c++11 -o atcoder atcoder.cpp
 // ./atcoder
-// 2026/9/9
+// 2026/9/12
 
 #include <algorithm>
 #include <cmath>
@@ -10,28 +10,36 @@
 using namespace std;
 
 int main() {
-  int N, M, K;
+  int N, M;
+  long long K;
   cin >> N >> M >> K;
   vector<int> A(N + 1);
   for (int i = 1; i <= N; i++) cin >> A[i];
-  vector<int> DP(N + 1, 0);
-  DP[1] = 1;
-  if (A[1] + A[2] <= K) {
-    DP[2] = 1;
+  vector<int> ans(N + 1);
+
+  long long currentSum = 0;
+
+  for (int i = 1; i <= M; i++) {
+    if (currentSum + A[i] <= K) {
+      ans[i] = 1;
+      currentSum += A[i];
+    }
   }
 
-  for (int i = 3; i <= N; i++) {
-    int ans = 0;
-    int first = 0;
-    int second = 0;
-    if (A[i - 2] <= K) {
-      ans += A[i - 2];
-      first = 1;
+  for (int i = M + 1; i <= N; i++) {
+    currentSum -= A[i - M] * ans[i - M];
+    if (currentSum + A[i] <= K) {
+      ans[i] = 1;
+      currentSum += A[i];
     }
   }
 
   for (int i = 1; i <= N; i++) {
-    cout << DP[i] << endl;
+    if (ans[i] == 1) {
+      cout << "Yes" << endl;
+    } else {
+      cout << "No" << endl;
+    }
   }
 
   return 0;
