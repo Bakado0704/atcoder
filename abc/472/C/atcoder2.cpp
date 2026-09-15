@@ -1,6 +1,6 @@
 // g++ -std=c++11 -o atcoder atcoder.cpp
 // ./atcoder
-// 2026/9/16
+// 2026/9/12
 
 #include <algorithm>
 #include <cmath>
@@ -21,16 +21,16 @@ int main() {
 
   for (int i = 1; i <= M; i++) {
     if (currentSum + A[i] <= K) {
-      currentSum += A[i];
       ans[i] = 1;
+      currentSum += A[i];
     }
   }
 
   for (int i = M + 1; i <= N; i++) {
     currentSum -= A[i - M] * ans[i - M];
     if (currentSum + A[i] <= K) {
-      currentSum += A[i];
       ans[i] = 1;
+      currentSum += A[i];
     }
   }
 
