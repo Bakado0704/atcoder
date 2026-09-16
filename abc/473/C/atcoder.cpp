@@ -1,6 +1,6 @@
 // g++ -std=c++11 -o atcoder atcoder.cpp
 // ./atcoder
-// 2026/8/29
+// 2026/9/17
 
 #include <algorithm>
 #include <cmath>
@@ -16,28 +16,32 @@ int main() {
   vector<int> AA;
   for (int i = 0; i < N; i++) cin >> A[i];
   sort(A.begin(), A.end());
-  int currentNum = A[0];
-  int length = 1;
-  for (int i = 1; i < N; i++) {
-    if (currentNum == A[i]) {
-      length++;
+  int currentClassNum = 1;
+  for (int i = 0; i < N; i++) {
+    if (i < N - 1) {
+      if (A[i] == A[i + 1]) {
+        currentClassNum++;
+      } else {
+        AA.push_back(currentClassNum);
+        currentClassNum = 1;
+      }
     } else {
-      AA.push_back(length);
-      currentNum = A[i];
-      length = 1;
+      if (A[i] == A[i - 1]) {
+        AA.push_back(currentClassNum);
+      } else {
+        AA.push_back(1);
+      }
     }
   }
-  AA.push_back(length);
   sort(AA.begin(), AA.end());
-  int maxLength = AA[AA.size() - 1];
-
+  int maxNum = AA[AA.size() - 1];
   int ans = 0;
-
   for (int i = 0; i < AA.size(); i++) {
-    if (AA[i] == maxLength || AA[i] == maxLength - 1) ans++;
+    if (AA[i] == maxNum || AA[i] == maxNum - 1) {
+      ans++;
+    }
   }
 
   cout << ans << endl;
-
   return 0;
 }
