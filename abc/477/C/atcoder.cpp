@@ -1,6 +1,6 @@
 // g++ -std=c++11 -o atcoder atcoder.cpp
 // ./atcoder
-// 2026/10/15
+// 2026/10/16
 
 #include <algorithm>
 #include <cmath>
@@ -27,25 +27,24 @@ int main() {
   }
 
   vector<int> sum(N + 1, 0);
-  for (int i = 0; i < N; i++) {
-    sum[i + 1] = sum[i] + match[i]; 
+  for (int i = 0; i <= N; i++) {
+    sum[i + 1] = sum[i] + match[i];
   }
 
   for (int q = 0; q < Q; q++) {
     int L, R;
     cin >> L >> R;
-
     L--;
     R--;
-    int right = R - M + 1;
-    int left = L;
+    int rightIndex = R - M + 1;
+    int leftIndex = L;
 
-    if (right < left) {
+    if (rightIndex < leftIndex) {
       cout << "No" << endl;
       continue;
     }
 
-    int count = sum[right + 1] - sum[left];
+    int count = sum[rightIndex + 1] - sum[leftIndex];
     if (count > 0) {
       cout << "Yes" << endl;
     } else {
