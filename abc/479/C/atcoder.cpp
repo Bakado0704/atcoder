@@ -1,6 +1,6 @@
 // g++ -std=c++11 -o atcoder atcoder.cpp
 // ./atcoder
-// 2026/10/13
+// 2026/10/16
 
 #include <algorithm>
 #include <cmath>
@@ -18,18 +18,18 @@ int main() {
   for (int i = 0; i < N; i++) cin >> A[i] >> B[i];
 
   long long ans = 0;
-
   for (int bit = 0; bit < (1 << N); bit++) {
-    long long totalA = 0;
-    long long totalB = 0;
+    long long sumA = 0;
+    long long sumB = 0;
     for (int i = 0; i < N; i++) {
       if (bit & (1 << i)) {
-        totalA += A[i];
-        totalB += B[i];
+        sumA += A[i];
+        sumB += B[i];
       }
     }
-    if (totalB <= W) {
-      ans = max(ans, totalA);
+
+    if (sumB <= W) {
+      ans = max(ans, sumA);
     }
   }
 
