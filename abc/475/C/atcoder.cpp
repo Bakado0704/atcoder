@@ -1,6 +1,6 @@
 // g++ -std=c++11 -o atcoder atcoder.cpp
 // ./atcoder
-// 2026/10/20
+// 2026/10/23
 
 #include <algorithm>
 #include <cmath>
@@ -13,26 +13,29 @@ int main() {
   int N, S;
   long long L;
   cin >> N >> S >> L;
-  vector<long long> A(N);
-  vector<long long> X(N + 1, 0);
-  for (int i = 1; i < N; i++) cin >> A[i];
-  for (int i = 1; i < N; i++) {
+  vector<long long> A(N - 1);
+  vector<long long> X(N, 0);
+  for (int i = 0; i < N - 1; i++) cin >> A[i];
+  for (int i = 0; i < N - 1; i++) {
     X[i + 1] = X[i] + A[i];
   }
-  int ans = 1;
-  int r = S;
-  for (int l = 1; l <= S; l++) {
-    while(r < N) {
-      long long left = X[S] - X[l];
-      long long right = X[r + 1] - X[S];
-      long long diff = min(left * 2 + right, left + right * 2);
-      if (diff > L) break; 
+  long long ans = 1;
+  long long r = S - 1;
+  for (int l = 0; l < S; l++) {
+    // lが固定の時、diffがLを超えないrを探す
+    while (r < N - 1) {
+      long long left = X[S - 1] - X[l];
+      long long right = X[r + 1] - X[S - 1];
+      long long diff = min(left * 2 + right, right * 2 + left);
+      if (diff > L) break;
       r++;
     }
-    long long left = X[S] - X[l];
-    long long right = X[r] - X[S];
-    long long diff = min(left * 2 + right, left + right * 2);
-    if (diff <= L) {
+
+    long long lastLeft = X[S - 1] - X[l];
+    long long lastRight = X[r] - X[S - 1];
+    long long lastDiff =
+        min(lastLeft * 2 + lastRight, lastRight * 2 + lastLeft);
+    if (lastDiff <= L) {
       ans = max(ans, r - l + 1);
     }
   }
