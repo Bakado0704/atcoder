@@ -1,6 +1,6 @@
 // g++ -std=c++11 -o atcoder atcoder.cpp
 // ./atcoder
-// 2026/10/31
+// 2026/11/2
 
 #include <algorithm>
 #include <cmath>
@@ -20,11 +20,12 @@ int main() {
   sort(R.begin(), R.end());
   sort(C.begin(), C.end());
 
-  for (int i = 0; i < Q; i++) {
-    int l;
+  for (long long i = 0; i < Q; i++) {
+    int judge;
     long long u, d;
-    cin >> l >> u >> d;
-    if (l == 1) {
+    cin >> judge >> u >> d;
+
+    if (judge == 1) {
       long long before;
       long long after;
       vector<long long>::iterator itBefore = lower_bound(R.begin(), R.end(), u);
@@ -33,15 +34,16 @@ int main() {
       } else {
         before = R.size();
       }
-      vector<long long>::iterator itAfter = lower_bound(R.begin(), R.end(), d+1);
+      vector<long long>::iterator itAfter =
+          lower_bound(R.begin(), R.end(), d + 1);
       if (itAfter != R.end()) {
         after = distance(R.begin(), itAfter);
       } else {
         after = R.size();
       }
+
       cout << after - before << endl;
-    }
-    if (l == 2) {
+    } else if (judge == 2) {
       long long before;
       long long after;
       vector<long long>::iterator itBefore = lower_bound(C.begin(), C.end(), u);
@@ -57,9 +59,9 @@ int main() {
       } else {
         after = C.size();
       }
+
       cout << after - before << endl;
     }
   }
-
   return 0;
 }
