@@ -1,6 +1,6 @@
 // g++ -std=c++11 -o atcoder atcoder.cpp
 // ./atcoder
-// 2026/10/16
+// 2026/11/11
 
 #include <algorithm>
 #include <cmath>
@@ -14,13 +14,12 @@ int main() {
   cin >> N >> K;
   vector<int> A(N);
   vector<int> B(N);
-  for (int i = 0; i < N; i++) {
-    cin >> A[i];
-  }
+  for (int i = 0; i < N; i++) cin >> A[i];
   B = A;
   sort(A.begin(), A.end());
   int L = -1;
   int R = -1;
+
   for (int i = 0; i < N; i++) {
     if (A[i] != B[i]) {
       if (L == -1) {
@@ -31,7 +30,8 @@ int main() {
   }
 
   if (L == -1) {
-    cout << "No" << endl;
+    cout << "Yes" << endl;
+    return 0;
   }
 
   if (R - L + 1 <= K) {
