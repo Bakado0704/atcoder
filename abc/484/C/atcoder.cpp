@@ -1,6 +1,6 @@
 // g++ -std=c++11 -o atcoder atcoder.cpp
 // ./atcoder
-// 2026/11/14
+// 2026/11/16
 
 #include <algorithm>
 #include <cmath>
@@ -33,65 +33,64 @@ int main() {
   if (diffIndex == N - 1) {
     cout << "No" << endl;
     return 0;
-  } else {
-    if (A[diffIndex] == B[diffIndex + 1]) {
-      vector<int> AA = A;
-      vector<int> BB = B;
-      int ADiff = 0;
-      int BDiff = 0;
-      // BからdiffNumを消す
-      BDiff = BB[diffIndex];
-      BB.erase(BB.begin() + diffIndex);
-      // AからdiffNumを消す
-      for (int i = diffIndex; i < N; i++) {
-        if (i == N - 1) {
-          ADiff = AA[i];
-          AA.erase(AA.begin() + i);
-        } else {
-          if (AA[i] != BB[i]) {
-            ADiff = AA[i];
-            AA.erase(AA.begin() + i);
-            break;
-          }
-        }
-      }
+  }
 
-      if (AA == BB && ADiff == BDiff) {
-        cout << "Yes" << endl;
-        return 0;
+  if (A[diffIndex] == B[diffIndex + 1]) {
+    vector<int> AA(N);
+    vector<int> BB(N);
+    int diffA = 0;
+    int diffB = 0;
+    AA = A;
+    BB = B;
+    // BからdiffIndexを削除
+    diffB = BB[diffIndex];
+    BB.erase(BB.begin() + diffIndex);
+    // AからdiffIndexを削除
+    for (int i = diffIndex; i < N; i++) {
+      if (i == N - 1) {
+        diffA = AA[i];
+        AA.erase(AA.begin() + i);
+      } else if (AA[i] != BB[i]) {
+        diffA = AA[i];
+        AA.erase(AA.begin() + i);
+        break;
       }
     }
 
-    if (B[diffIndex] == A[diffIndex + 1]) {
-      vector<int> AA = A;
-      vector<int> BB = B;
-      int ADiff = 0;
-      int BDiff = 0;
-      // AからdiffNumを消す
-      ADiff = AA[diffIndex];
-      AA.erase(AA.begin() + diffIndex);
-      // AからdiffNumを消す
-      for (int i = diffIndex; i < N; i++) {
-        if (i == N - 1) {
-          BDiff = BB[i];
-          BB.erase(BB.begin() + i);
-        } else {
-          if (AA[i] != BB[i]) {
-            BDiff = BB[i];
-            BB.erase(BB.begin() + i);
-            break;
-          }
-        }
-      }
+    if (diffA == diffB && AA == BB) {
+      cout << "Yes" << endl;
+      return 0;
+    }
+  }
 
-      if (AA == BB && ADiff == BDiff) {
-        cout << "Yes" << endl;
-        return 0;
+  if (A[diffIndex + 1] == B[diffIndex]) {
+    vector<int> AA(N);
+    vector<int> BB(N);
+    int diffA = 0;
+    int diffB = 0;
+    AA = A;
+    BB = B;
+    // AからdiffIndexを削除
+    diffA = AA[diffIndex];
+    AA.erase(AA.begin() + diffIndex);
+    // BからdiffIndexを削除
+    for (int i = diffIndex; i < N; i++) {
+      if (i == N - 1) {
+        diffB = BB[i];
+        BB.erase(BB.begin() + i);
+      } else if (AA[i] != BB[i]) {
+        diffB = BB[i];
+        BB.erase(BB.begin() + i);
+        break;
       }
+    }
+
+    if (diffA == diffB && AA == BB) {
+      cout << "Yes" << endl;
+      return 0;
     }
   }
 
   cout << "No" << endl;
-
   return 0;
 }
