@@ -1,6 +1,6 @@
 // g++ -std=c++11 -o atcoder atcoder.cpp
 // ./atcoder
-// 2026/11/2
+// 2026/11/17
 
 #include <algorithm>
 #include <cmath>
@@ -10,57 +10,54 @@
 using namespace std;
 
 int main() {
-  long long H, W, N, Q;
+  long long H, W;
+  int N, Q;
   cin >> H >> W >> N >> Q;
   vector<long long> R(N);
   vector<long long> C(N);
-  for (int i = 0; i < N; i++) {
-    cin >> R[i] >> C[i];
-  }
+  for (int i = 0; i < N; i++) cin >> R[i] >> C[i];
   sort(R.begin(), R.end());
   sort(C.begin(), C.end());
-
-  for (long long i = 0; i < Q; i++) {
-    int judge;
+  for (int i = 0; i < Q; i++) {
+    int l;
     long long u, d;
-    cin >> judge >> u >> d;
-
-    if (judge == 1) {
-      long long before;
-      long long after;
-      vector<long long>::iterator itBefore = lower_bound(R.begin(), R.end(), u);
-      if (itBefore != R.end()) {
-        before = distance(R.begin(), itBefore);
+    cin >> l >> u >> d;
+    if (l == 1) {
+      int leftNum;
+      int rightNum;
+      vector<long long>::iterator leftIt = lower_bound(R.begin(), R.end(), u);
+      if (leftIt != R.end()) {
+        leftNum = distance(R.begin(), leftIt);
       } else {
-        before = R.size();
+        leftNum = N;
       }
-      vector<long long>::iterator itAfter =
+      vector<long long>::iterator rightIt =
           lower_bound(R.begin(), R.end(), d + 1);
-      if (itAfter != R.end()) {
-        after = distance(R.begin(), itAfter);
+      if (rightIt != R.end()) {
+        rightNum = distance(R.begin(), rightIt);
       } else {
-        after = R.size();
+        rightNum = N;
       }
-
-      cout << after - before << endl;
-    } else if (judge == 2) {
-      long long before;
-      long long after;
-      vector<long long>::iterator itBefore = lower_bound(C.begin(), C.end(), u);
-      if (itBefore != C.end()) {
-        before = distance(C.begin(), itBefore);
+      int count = rightNum - leftNum;
+      cout << count << endl;
+    } else {
+      int leftNum;
+      int rightNum;
+      vector<long long>::iterator leftIt = lower_bound(C.begin(), C.end(), u);
+      if (leftIt != C.end()) {
+        leftNum = distance(C.begin(), leftIt);
       } else {
-        before = C.size();
+        leftNum = N;
       }
-      vector<long long>::iterator itAfter =
+      vector<long long>::iterator rightIt =
           lower_bound(C.begin(), C.end(), d + 1);
-      if (itAfter != C.end()) {
-        after = distance(C.begin(), itAfter);
+      if (rightIt != C.end()) {
+        rightNum = distance(C.begin(), rightIt);
       } else {
-        after = C.size();
+        rightNum = N;
       }
-
-      cout << after - before << endl;
+      int count = rightNum - leftNum;
+      cout << count << endl;
     }
   }
   return 0;
