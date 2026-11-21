@@ -1,6 +1,6 @@
 // g++ -std=c++11 -o atcoder atcoder.cpp
 // ./atcoder
-// 2026/11/3
+// 2026/11/21
 
 #include <algorithm>
 #include <cmath>
@@ -34,16 +34,18 @@ int main() {
   for (int i = 0; i < Q; i++) {
     int L, R;
     cin >> L >> R;
-    L--;
-    R--;
-    int leftIndex = L;
-    int rightIndex = R - M + 1;
-    if (leftIndex > rightIndex) {
+
+    if (L + M - 1 > R) {
       cout << "No" << endl;
       continue;
     }
 
-    int count = sum[rightIndex + 1] - sum[leftIndex];
+    L--;
+    R--;
+    int left = L;
+    int right = R - M + 1;
+
+    int count = sum[right + 1] - sum[left];
     if (count > 0) {
       cout << "Yes" << endl;
     } else {
